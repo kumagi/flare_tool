@@ -1,0 +1,4 @@
+#!/bin/bash
+export MYIP=`./myip.sh`
+sudo perl -i -pe"s/server-name = .*/server-name = $MYIP/" /etc/flare/flarei.conf
+sudo perl -i -pe"s/server-name = .*/server-name = $MYIP/" /etc/flare/flared.conf

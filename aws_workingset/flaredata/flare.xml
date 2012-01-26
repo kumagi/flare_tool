@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="7">
+<node_map class_id="0" tracking_level="0" version="0">
+	<count>5</count>
+	<item_version>0</item_version>
+	<item class_id="1" tracking_level="0" version="0">
+		<first>10.146.85.216:12121</first>
+		<second class_id="2" tracking_level="0" version="0">
+			<node_server_name>10.146.85.216</node_server_name>
+			<node_server_port>12121</node_server_port>
+			<node_role>2</node_role>
+			<node_state>2</node_state>
+			<node_partition>-1</node_partition>
+			<node_balance>0</node_balance>
+			<node_thread_type>19</node_thread_type>
+		</second>
+	</item>
+	<item>
+		<first>10.146.85.217:12121</first>
+		<second>
+			<node_server_name>10.146.85.217</node_server_name>
+			<node_server_port>12121</node_server_port>
+			<node_role>2</node_role>
+			<node_state>2</node_state>
+			<node_partition>-1</node_partition>
+			<node_balance>0</node_balance>
+			<node_thread_type>16</node_thread_type>
+		</second>
+	</item>
+	<item>
+		<first>10.146.87.192:12121</first>
+		<second>
+			<node_server_name>10.146.87.192</node_server_name>
+			<node_server_port>12121</node_server_port>
+			<node_role>2</node_role>
+			<node_state>2</node_state>
+			<node_partition>-1</node_partition>
+			<node_balance>0</node_balance>
+			<node_thread_type>18</node_thread_type>
+		</second>
+	</item>
+	<item>
+		<first>10.146.91.167:12121</first>
+		<second>
+			<node_server_name>10.146.91.167</node_server_name>
+			<node_server_port>12121</node_server_port>
+			<node_role>2</node_role>
+			<node_state>2</node_state>
+			<node_partition>-1</node_partition>
+			<node_balance>0</node_balance>
+			<node_thread_type>17</node_thread_type>
+		</second>
+	</item>
+	<item>
+		<first>10.148.165.98:12121</first>
+		<second>
+			<node_server_name>10.148.165.98</node_server_name>
+			<node_server_port>12121</node_server_port>
+			<node_role>2</node_role>
+			<node_state>2</node_state>
+			<node_partition>-1</node_partition>
+			<node_balance>0</node_balance>
+			<node_thread_type>20</node_thread_type>
+		</second>
+	</item>
+</node_map>
+<thread_type>21</thread_type>
+</boost_serialization>
+
