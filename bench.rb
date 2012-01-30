@@ -8,6 +8,7 @@ servers = (ARGV[3] || 1).to_i
 
 default_money = 1000
 
+
 print "initializing... "
 STDOUT.flush
 `./init.sh`
@@ -15,26 +16,20 @@ puts "done."
 
 print "launching flares..."
 STDOUT.flush
-
 flare_boot = `./launch.rb #{servers}`
-
 raise "invalid server number" unless flare_boot.match /flare boot done/
-
 puts "done."
 
-puts "ssh manager \"ruby benchmark/account_init.rb #{prefix} #{accounts} #{default_money}\""
-`ssh manager "killall ruby -q"`
-`ssh manager "ruby benchmark/account_init.rb #{prefix} #{accounts} #{default_money}"`
+print "accounts initialize... ssh manager \"ruby benchmark/account_init.rb #{prefix} #{accounts} #{default_money}\""
+STDOUT.flush
+account_init_result = `ssh manager "ruby benchmark/account_init.rb #{prefix} #{accounts} #{default_money}"`
+
+raise "failed to account init #{account_init_result}" unless account_init_result.match /#{accounts} accounts set.$/
+
 
 puts "initialized accounts #{prefix}0~#{accounts} with #{default_money} ok"
 10.times{ |n|
-=begin
-prefix = ARGV[0]
-accounts = ARGV[1]
-works = ARGV[2].to_i
-chunk = ARGV[3].to_i
-parallels = ARGV[4].to_i
-=end
+  # feeder: prefix, accounts, works, chunk, parallels
   puts "launch feeder #{accounts} #{chunk}chunk #{works}works #{n+1}parallel "
   result = `ssh manager "ruby ~/benchmark/work_feeder.rb #{prefix} #{accounts} #{works} #{chunk} #{n+1}"`
   puts result

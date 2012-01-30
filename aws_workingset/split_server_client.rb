@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+require 'yaml'
 
 server = ARGV[0].to_i
 client = ARGV[1].to_i
@@ -7,8 +8,6 @@ if server == 0 || client == 0
   puts "invalid server client number"
   exit
 end
-
-
 
 File.open("nodelist.txt", "r"){|file|
   fileline = file.count
@@ -33,3 +32,13 @@ File.open("nodelist.txt", "r"){|file|
   }
 }
 
+nodes = YAML.load_file("nodelist.yaml")
+`rm serverlist.yaml -rf`
+File.open("serverlist.yaml","w"){|serverlist|
+  YAML.dump(nodes[0, server], serverlist)
+}
+
+`rm clientlist.yaml -rf`
+File.open("clientlist.yaml","w"){|clientlist|
+  YAML.dump(nodes.slice(-client, nodes.size), clientlist)
+}

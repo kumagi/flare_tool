@@ -1,5 +1,4 @@
 require 'socket'
-require 'ap'
 
 host = '176.34.30.147'
 port = 12120

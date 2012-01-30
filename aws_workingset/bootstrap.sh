@@ -9,6 +9,7 @@ sleep 11
 ./conf/configure_heartbeat.rb  < /dev/null &> /dev/null
 echo "waiting for IP addresses became private IP."
 rm nodelist.txt
+rm nodelist.yaml
 sleep 14
 # configure all flare with private IP
 ./conf/all_configure_flared.rb < /dev/null &> /dev/null

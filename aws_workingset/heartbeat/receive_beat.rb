@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 require 'socket'
+require 'yaml'
 
 port = 12334
 server = TCPServer.open(port)
@@ -17,6 +18,10 @@ Thread.start{
       File.open("nodelist.txt","w"){ |f|
         f.write(string + "\n")
       }
+      File.open("nodelist.yaml","w"){ |f|
+        YAML.dump(from, f)
+      }
+      
       from = []
       puts "file wrote"
     rescue

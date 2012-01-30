@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
-require 'rubygems'
-require 'ap'
+
 servers = ARGV[0].to_i
 clients = ARGV[1].to_i
 
@@ -38,8 +37,8 @@ loop do
     result = `ruby setrole.rb #{servers}`
 
     unless result.match(/([0-9]*) node flared,/)
-      puts "no node exists [#{result.sub /\n/, "\\n"}] retry."
-      retry
+      puts "node exists [#{result.sub /\n/, "\\n"}] retry."
+      next
     end
     boot_nodes = result.scan(/([0-9]*) node flared/)[0][0].to_i
 
