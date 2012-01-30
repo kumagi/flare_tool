@@ -2,8 +2,8 @@ import memcache
 import sys
 from time import time
 
-hostname = '127.0.0.1:11211'
-#hostname = str(sys.argv[1]) + ':11212'
+#hostname = '127.0.0.1:11211'
+hostname = str(sys.argv[1]) + ':12121'
 
 def parse_args(arg, param_name):
   if len(arg) < len(param_name):

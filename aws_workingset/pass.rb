@@ -1,13 +1,18 @@
 #!/usr/bin/ruby
-filename="workingset.tar.gz"
+filename="hoge.tar.gz"
 `tar cvzf #{filename} *`
-File.open("nodelist.txt","r"){|file|
-  while node = file.gets
-    node.chomp!
+threads = []
+IO.foreach("nodelist.txt"){|node|
+  node = node.chomp
+  puts "sending #{node} begin"
+  threads << Thread.new{
     `ssh #{node} "rm * -rf"`
     `scp #{filename} #{node}:~/`
     `ssh #{node} "tar xvf #{filename}; rm #{filename}"`
     # $stderr.write "ssh #{node} '#{command}'\n"
-  end
+    puts "sending #{node} done"
+  }
 }
+threads.each{ |t| t.join}
 `rm #{filename}`
+puts 'finish'

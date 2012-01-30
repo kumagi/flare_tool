@@ -8,6 +8,8 @@ if server == 0 || client == 0
   exit
 end
 
+
+
 File.open("nodelist.txt", "r"){|file|
   fileline = file.count
   if fileline < server+client
@@ -15,11 +17,14 @@ File.open("nodelist.txt", "r"){|file|
     exit
   end
   file.seek 0
+  `rm serverlist.txt -rf`
   File.open("serverlist.txt","w"){|serverlist|
     server.times{
       serverlist.write file.gets
     }
   }
+
+  `rm clientlist.txt -rf`
   (fileline - (server + client)).times{ file.gets }
   File.open("clientlist.txt","w"){|clientlist|
     client.times{

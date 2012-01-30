@@ -14,15 +14,20 @@ def parse_args(arg, param_name):
     print "You should set %s" % param_name[len(arg)]
     exit(1)
   return arg
-prefix, num, accounts, parallel = parse_args(sys.argv[1:],
+prefix, accounts, num, parallel = parse_args(sys.argv[1:],
                           ["prefix of accounts",
-                           "number of work",
                            "number of accounts",
+                           "number of work",
                            "parallels"])
 
 num = int(num)
 accounts = int(accounts)
 parallel = int(parallel)
+
+host = "127.0.0.1"
+port = "12121"
+#port = "11211"
+
 if num < parallel:
   print("you should set parallel less than numbers")
   exit(1)
@@ -30,7 +35,7 @@ if num < parallel:
 done = []
 done.append(0)
 def work():
-  mc = kvtx.WrappedClient(["127.0.0.1:11211"])
+  mc = kvtx.WrappedClient(["%s:%s" % (host,port)])
   rnd = Random()
   random_account = lambda:rnd.randint(0, accounts-1)
   random_money = lambda:rnd.randint(0, 100)
@@ -44,9 +49,13 @@ def work():
     def move(s,g):
       from_money = g(from_account)
       to_money = g(to_account)
-      assert(isinstance(from_money, int))
-      assert(isinstance(to_money, int))
-      print "%s[%d -> %d] =%d=> %s[%d -> %d]" % (from_account, from_money, from_money - moves, moves, to_account, to_money, to_money + moves)
+      try:
+        assert(isinstance(from_money, int))
+        assert(isinstance(to_money, int))
+      except AssertionError:
+        print("Invalid account. from_money %s, to_money %s" % (str(from_money), str(to_money)))
+        raise kvtx.AbortException
+      #print "%s[%d -> %d] =%d=> %s[%d -> %d]" % (from_account, from_money, from_money - moves, moves, to_account, to_money, to_money + moves)
       from_money -= moves
       to_money += moves
       s(from_account, from_money)
@@ -64,3 +73,4 @@ for j in range(parallel):
   threads.append(new_thread)
 for j in range(len(threads)):
   threads[j].join()
+print "@work done@"

@@ -16,7 +16,7 @@ name, number = parse_args(sys.argv[1:],
                                 ["prefix of accounts", "number of accounts"])
 number = int(number)
 
-mc = kvtx.WrappedClient(["127.0.0.1:11211"])
+mc = kvtx.WrappedClient(["127.0.0.1:12121"])
 def account_verify(setter, getter):
   for i in range(number):
     getter(name + str(i))
@@ -24,5 +24,5 @@ result = kvtx.rr_transaction(mc, account_verify)
 
 sum = 0
 for k in result.keys():
-  sum += result[k]
-print sum
+  sum += int(result[k])
+print sum / number

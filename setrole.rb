@@ -8,11 +8,17 @@ master_nodes = ARGV[0].to_i
 
 class FlareManager
   def initialize host, port
+    retry_counter = 0
     begin
       @s = TCPSocket.new(host,port)
     rescue Errno::ECONNREFUSED => e
       puts "connectiong #{host}:#{port} failed retry in 1 second"
       sleep 1
+      retry_counter = retry_counter + 1
+      if 10 < retry_counter
+        puts "Couldnt connect master of flare, Check it"
+        exit
+      end
       retry
     end
     @server_list = get_servers
@@ -51,14 +57,17 @@ class FlareManager
     }
   end
   def set_role role, n
-    raise "n(=#{n}) is out of range of server_list #{@server_list.size}" if
-      @server_list.size <= n
+    if @server_list.size <= n
+      puts "n(=#{n}) is out of range of server_list #{@server_list.size}"
+      exit
+    end
+
     loop do
       query = "node role #{@server_list[n]} 12121 #{role} 1 #{n}\r\n"
       @s.write query
       result = recv_until [/OK/, /SERVER_ERROR/, /ERROR/]
       break if result[:matched].to_s =~ /OK/
-      $stderr.write "unexpeced result for \n#{query}#{result[:data]}"
+      puts "unexpeced result for \n#{query}#{result[:data]}"
       sleep 1
     end
   end
@@ -70,7 +79,7 @@ class FlareManager
       @s.write query
       result = recv_until [/OK/, /ERROR/]
       break if result[:matched] =~ /OK/
-      $stderr.write "unexpeced result for \n#{query}\n#{result[:data]}"
+      puts "unexpeced result for \n#{query}\n#{result[:data]}"
       sleep 1
     end
   end

@@ -42,11 +42,22 @@ def get_deleting_value(old, new, status):
 class WrappedClient(object):
   def __init__(self, *args):
     from memcache import Client
-    self.mc = Client(*args, cache_cas = True)
+    self.mc = Client(*args, cache_cas = True, socket_timeout=10)
     self.del_que = []
     self.random = Random()
     self.random.seed()
     import threading
+  def gets(self, key):
+    while True:
+      result = self.mc.gets(key)
+      if isinstance(result, tuple):
+        return result[0]
+      return result
+  def cas(self, key, value):
+    try:
+      return self.mc.cas(key, value)
+    except TypeError:
+      return False
   def add(self, key, value):
     result = self.mc.add(key, value)
     if not isinstance(result, bool):
@@ -93,10 +104,15 @@ class MemTr(object):
     length = 8
     while 1:
       key = self.prefix + self._random_string(length)
-      result = self.mc.add(key, value)
+      try:
+        result = self.mc.add(key, value)
+      except ConnectionError:
+        sleep(0.1)
+        continue
       if result == True:
 	return key
-      length += self.mc.random.randint(0, 10) == 0
+      if length < 250:
+        length += self.mc.random.randint(0, 10) == 0
   def __init__(self, client):
     self.prefix = 'auau:'
     self.mc = client
@@ -147,10 +163,12 @@ class MemTr(object):
 
   def async_work(self, cv, work_queue, exit_flag, fn):
     while True:
-      cv.acquire()
+      try:
+        cv.acquire()
+      except:
+        return
       try:
 	while((not exit_flag[0]) and len(work_queue) == 0):
-	  self.out("worker waiting...")
 	  cv.wait()
 	self.out("awake!")
 	if(exit_flag[0]):
@@ -158,9 +176,17 @@ class MemTr(object):
 	  return
 	consume_target = work_queue
 	work_queue = [] # intialize
+      except:
+        pass # ignore all
       finally:
-	cv.release()
-      map(fn, consume_target)
+        try:
+          cv.release()
+        except: # ignore all
+          pass
+      try:
+        map(fn, consume_target)
+      except:
+        pass # ignore all
     return
   def async_enq(self, cv, work_queue, work):
     cv.acquire()
@@ -219,7 +245,7 @@ class MemTr(object):
 	    self.mc.cas(key, new[1])
 	  self.delete_by_need(old)
       except TypeError, e:
-	#print "deflate:exception",str(eb)
+	print "deflate:exception",str(e)
 	pass
       except Exception,e:
 	sys.stderr.write(str(e))
@@ -286,12 +312,15 @@ class MemTr(object):
   def set(self, key, value):
     resolver = self.resolver(self)
     if not self.writeset.has_key(key): # add keyname in status for cleanup
-      should_active, old_writeset = self.mc.gets(self.transaction_status)
-      if should_active != ACTIVE:
-	raise AbortException
-      result = self.mc.cas(self.transaction_status, [ACTIVE, self.writeset.keys() + [key]])
-      if result == False:
-	raise AbortException
+      try:
+        should_active, old_writeset = self.mc.gets(self.transaction_status)
+        if should_active != ACTIVE:
+          raise AbortException
+        result = self.mc.cas(self.transaction_status, [ACTIVE, self.writeset.keys() + [key]])
+        if result == False:
+          raise AbortException
+      except TypeError:
+        raise AbortException
     # start
     tupled_new = self.save_by_need(value)
     while(True):
@@ -465,10 +494,11 @@ class MemTr(object):
 	  self.delete_by_need(old)
 	  self.delete_by_need(new)
 
-def rr_transaction(kvs, target_transaction):
+def rr_transaction(kvs, target_transaction, clean = False):
   transaction = MemTr(kvs)
   setter = lambda k,v : transaction.set(k,v)
   getter = lambda k :	transaction.get(k)
+  wait_count = 1
   try:
     while(1):
       transaction.begin()
@@ -481,8 +511,15 @@ def rr_transaction(kvs, target_transaction):
 	transaction.out("aborted:" + str(transaction.transaction_status))
 	transaction.add_def_que(transaction.transaction_status)
 	continue
+      except ConnectionError:
+        transaction.add_def_que(transaction.transaction_status)
+        sleep(0.001 * randint(0, 1 << wait_count))
+        if wait_count < 10:
+          wait_count += 1
+        continue
   finally:
-    transaction.exit()
+    if clean:
+      transaction.exit()
 
 if __name__ == '__main__':
   mc = WrappedClient(['127.0.0.1:11211'])
