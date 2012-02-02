@@ -12,45 +12,29 @@ if parallels == 0
   exit
 end
 
+myip = `hostname -i`
+
 threads = []
 done_work = 0
 start = Time.now
-clients = YAML.load_file('clientlist.yaml')
-clients.each{|target|
-  parallels.times{
-    Thread.new{
-      `ssh #{target} "killall -q python"`
-      begin
-        loop do
-          result = `ssh #{target} "python flare/move_money.py #{prefix} #{chunk} #{accounts} 3"`
-          if result.match /@work done@/
-            done_work = done_work + chunk
-            $stderr.print "#{done_work}"
-          elsif
-            $stderr.puts "error:[#{result}]"
-            sleep 0.1
-          end
-          break if works <= done_work
-        end
-      rescue => e
-        p e
-      end
-    }
-  }
-}
 
-IO.foreach("clientlist.txt") do |s|
-  target = s.chomp
-  parallels.times{
+clients = YAML.load_file "clientlist.yaml"
+clients.each{ |target|
+  parallels.times{|n|
     result = `ssh #{target} "killall -q python"`
     Thread.new{
       begin
         loop do
           #puts "ssh #{target} \"python flare/move_money.py #{prefix} #{chunk} #{accounts} 4\""
           result = `ssh #{target} "python flare/move_money.py #{prefix} #{chunk} #{accounts} 4"`
+          # $stderr.puts "#{n}: ssh #{target} \"python flare/blindset.py #{chunk} 10\""
+          # result = `ssh #{target} "python flare/blindset.py #{chunk} 1"`
+          # result = `ssh #{target} "echo hello"`
+          # $stderr.puts "#{n}: ssh end [#{result}]"
           if result.match /@work done@/
             done_work = done_work + chunk
-            $stderr.print "#{done_work} "
+            # $stderr.print "#{done_work} "
+            $stderr.print "."
           elsif
             $stderr.puts "error:[#{result}]"
           end
@@ -59,10 +43,10 @@ IO.foreach("clientlist.txt") do |s|
       rescue => e
         p e
       end
-      $stderr.puts "done"
+      # $stderr.puts "#{n}: all #{done_work}s done"
     }
   }
-end
+}
 
 loop do
   break if works <= done_work
@@ -70,4 +54,5 @@ loop do
 end
 finish = Time.now
 puts "#{done_work.to_f / (finish - start)} qps"
+STDOUT.flush
 threads.each{ |t| t.join}

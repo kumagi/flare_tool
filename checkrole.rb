@@ -16,7 +16,19 @@ class FlareManager
       retry
     end
   end
-
+  def get_nodelist
+    @s.write "stats nodes\r\n"
+    nodes = []
+    @s.each{ |n|
+      n = n.chomp
+      if n.match /master$/
+        node = n.scan /^STAT ([^:]*)/
+        nodes << node[0][0] unless node[0].nil? unless node.nil?
+      end
+      break if n =~ /END/
+    }
+    nodes.uniq
+  end
   def checkrole
     @s.write "stats nodes\r\n"
     masters = []

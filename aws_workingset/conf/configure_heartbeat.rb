@@ -22,5 +22,3 @@ EOS
 [substitute_command,
  "sudo service heartbeat stop",
  "sudo service heartbeat start"].each{|c| parallel_do c}
-
-

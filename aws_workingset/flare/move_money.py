@@ -40,8 +40,10 @@ def work():
   random_account = lambda:rnd.randint(0, accounts-1)
   random_money = lambda:rnd.randint(0, 100)
   while True:
-    from_account = prefix + str(random_account())
-    to_account = prefix + str(random_account())
+    from_number = random_account()
+    to_number = random_account()
+    from_account = prefix + str(from_number)
+    to_account = prefix + str(to_number)
     if from_account == to_account:
       continue
     moves = random_money()
@@ -53,7 +55,7 @@ def work():
         assert(isinstance(from_money, int))
         assert(isinstance(to_money, int))
       except AssertionError:
-        print("Invalid account. from_money %s, to_money %s" % (str(from_money), str(to_money)))
+        print("Invalid account. from_money %s(account:%d), to_money %s(account:%d)" % (str(from_money), from_number, str(to_money), to_number))
         raise kvtx.AbortException
       #print "%s[%d -> %d] =%d=> %s[%d -> %d]" % (from_account, from_money, from_money - moves, moves, to_account, to_money, to_money + moves)
       from_money -= moves
@@ -73,4 +75,5 @@ for j in range(parallel):
   threads.append(new_thread)
 for j in range(len(threads)):
   threads[j].join()
+
 print "@work done@"

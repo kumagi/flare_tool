@@ -5,6 +5,7 @@ def parallel_do command
     node.chomp!
     next if node == ""
     threads << Thread.new {
+
       puts "node :[#{node}] => #{command}"
       `ssh #{node} "#{command}"`
     }
@@ -19,6 +20,7 @@ reset = ["sudo service flarei stop",
          "./manage_flare/init_flaredata.sh"]
 reset.each{|c| parallel_do c}
 `./manage_flare/init_flaredata.sh`
+`rm ~/flaredata/flare.xml`
 
 `sudo ./manage_flare/init_flaredata.sh`
 

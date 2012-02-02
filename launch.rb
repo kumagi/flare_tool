@@ -6,12 +6,11 @@ clients = ARGV[1].to_i
 def get_node_quantity
   `ssh manager "cat nodelist.txt| wc -l"`.to_i
 end
-
 node_quantity = get_node_quantity
 puts "node quantity #{node_quantity}"
 
 if node_quantity < servers + clients
-  puts "server and clients number bigger than servers"
+  puts "only #{node_quantity} exists for #{servers + clients} request"
   exit
 end
 
@@ -34,7 +33,7 @@ loop do
     system("ssh manager \"./quiet_launch_flares.sh\"")
     puts "flare boot done. try configuring..."
     sleep 1
-    result = `ruby setrole.rb #{servers}`
+    result = `ruby set_master.rb #{servers}`
 
     unless result.match(/([0-9]*) node flared,/)
       puts "node exists [#{result.sub /\n/, "\\n"}] retry."
@@ -46,8 +45,9 @@ loop do
     break if boot_nodes == exist_nodes
     puts "only #{boot_nodes}/#{exist_nodes} nodes. retry"
     puts "result [#{result.sub /\n/, "\\n"}]"
+    `ssh manager "./killall.rb"`
   end
 end
-puts "all nodes booted, ready"
+puts "all nodes booted, ready #{clients}client #{servers}server"
 
 

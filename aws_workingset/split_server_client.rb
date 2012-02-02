@@ -35,10 +35,10 @@ File.open("nodelist.txt", "r"){|file|
 nodes = YAML.load_file("nodelist.yaml")
 `rm serverlist.yaml -rf`
 File.open("serverlist.yaml","w"){|serverlist|
-  YAML.dump(nodes[0, server], serverlist)
+  YAML.dump(nodes[0, server].sort, serverlist)
 }
 
 `rm clientlist.yaml -rf`
 File.open("clientlist.yaml","w"){|clientlist|
-  YAML.dump(nodes.slice(-client, nodes.size), clientlist)
+  YAML.dump(nodes.slice(-client, nodes.size).sort, clientlist)
 }

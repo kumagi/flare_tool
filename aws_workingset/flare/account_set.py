@@ -21,6 +21,6 @@ mc = kvtx.WrappedClient(["127.0.0.1:12121"])
 for i in range(number):
   def account_make(setter, getter):
     setter(name + str(i), init)
-  kvtx.rr_transaction(mc, account_make, True)
+  kvtx.rr_transaction(mc, account_make)
 
 print "set %s 0~%d account to %d" % (name, number, init)
