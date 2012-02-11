@@ -17,15 +17,15 @@ class AbortException(Exception):
 class ConnectionError(Exception):
   pass
 
-INFLATE = 'i'
+INFLATE = 'inf'
 
-COMMITTED = 'c'
+COMMITTED = 'com'
 ABORT = 'ab'
 ACTIVE = 'ac'
 
 THRESHOLD = 10
-DIRECT = 'd'
-INDIRECT = 'i'
+DIRECT = 'di'
+INDIRECT = 'in'
 
 def get_committed_value(old, new, status):
   if status == COMMITTED:
@@ -45,6 +45,7 @@ def get_deleting_value(old, new, status):
 
 class WrappedClient(object):
   def __init__(self, *args):
+    self.args = args
     self.mc = Client(*args, cache_cas = True, socket_timeout=10)
     self.del_que = []
     import threading
@@ -55,15 +56,37 @@ class WrappedClient(object):
         return result[0]
       return result
   def cas(self, key, value):
+    retry_count = 0
     try:
-      return self.mc.cas(key, value)
+      while True:
+        result = self.mc.cas(key, value)
+        if not isinstance(result, bool):
+          if retry_count <= 10:
+            retry_count += 1
+            wait_time = 0.001 * randint(0, 1 << retry_count)
+            print 'add fail, retry for sleep'
+            sleep(wait_time)
+            self.mc = Client(*self.args, cache_cas = True, socket_timeout=10)
+            continue
+        #raise ConnectionError
+        return result
     except TypeError:
       return False
   def add(self, key, value):
-    result = self.mc.add(key, value)
-    if not isinstance(result, bool):
-      raise ConnectionError
-    return result
+    retry_count = 0
+    while True:
+      result = self.mc.add(key, value)
+      if not isinstance(result, bool):
+        if retry_count <= 10:
+          retry_count += 1
+        wait_time = 0.001 * randint(0, 1 << retry_count)
+        print 'add fail, retry for sleep'
+        sleep(wait_time)
+        print self.args
+        self.mc = Client(*self.args, cache_cas = True, socket_timeout=10)
+        continue
+        #raise ConnectionError
+      return result
   # delegation
   def __getattr__(self, attrname):
     return getattr(self.mc, attrname)
@@ -71,11 +94,9 @@ class WrappedClient(object):
 class MemTr(object):
   """ transaction on memcached """
   def _random_string(self,length):
-    string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890#$%^&*()_+{}"|?><!~`-=[]\'\\/./,'
-    ans = ''
-    for i in range(length):
-      ans += string[self.random.randint(0, len(string) - 1)]
-    return ans
+    ascii_charactor = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+{}:"|;<>?/,.[]=_'
+    #ascii_charactor = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890'
+    return ''.join(random.choice(ascii_charactor) for _ in xrange(length))
   @classmethod
   def should_indirect(cls, value):
     packed_value = msgpack.packb(value)
@@ -106,24 +127,28 @@ class MemTr(object):
     while 1:
       key = self.prefix + self._random_string(length)
       try:
-        #sys.stderr.write("key:%s\n" % key)
         result = self.mc.add(key, value)
       except ConnectionError:
+        print 'add random connection error'
         sleep(0.1)
         continue
       if result == True:
 	return key
       if length < 249 - len(self.prefix):
+        #sys.stderr.write("random length is %d\n" % (length,))
         length += random.randint(0, 10) == 0
       else:
-        self.random.seed(os.urandom(16))
-        length = 8
+        sys.stderr.write("random length is %d.something seems to be wrong\n" % (length,))
+        self.random.seed(os.urandom(8))
+        self.random.jumpahead(os.getpid())
+        length = 10
   def __init__(self, client):
     self.prefix = 'auau:'
     self.mc = client
 
     self.random = Random()
     self.random.seed(os.urandom(128))
+    self.random.jumpahead(os.getpid())
     # thread exit flag
     self.exit_flag = [False]
 
@@ -162,7 +187,8 @@ class MemTr(object):
   def out(self,string):
     #sys.stderr.write(self.transaction_status + " : " + string + "\n")
     try:
-      #sys.stderr.write(str(self.transaction_status) + " wb" + str(self.writeset) + " rb" + str(self.readset) +" : " + string + "\n")
+      #sys.stderr.write(str(self.transaction_status) + " wb" + str(self.writeset.size) + " rb" + str(self.readset.size) +" : " + string + "\n")
+      #print(str(self.transaction_status) + " wb" + str(self.writeset.size) + " rb" + str(self.readset.size) +" : " + string + "\n")
       pass
     except:
       pass
@@ -217,7 +243,6 @@ class MemTr(object):
       self.def_thread.join()
     except:
       pass
-  
     try:
       self.del_cv.acquire()
       self.exit_flag[0] = True
@@ -312,15 +337,17 @@ class MemTr(object):
       self.count = 0
       self.memtr = memtr
     def __call__(self, other_status):
+      print self.memtr.transaction_status + 'conflict backoff for' + other_status
       while True:
         wait_time = 0.001 * randint(0, 1 << self.count)
-        self.memtr.out("backoff wait:%f\n" % wait_time)
 	sleep(wait_time)
 	try:
 	  status, ref_list = self.memtr.mc.gets(other_status)
 	except TypeError:
+          print self.memtr.transaction_status + 'status deleted'
 	  return
 	if status != ACTIVE:
+          print self.memtr.transaction_status + 'aborted'
 	  return
 	if self.count <= 10:
 	  self.count += 1
@@ -329,8 +356,14 @@ class MemTr(object):
 	  self.count = 0
 	  rob_success = self.memtr.mc.cas(other_status, [ABORT, ref_list])
 	  if rob_success:
+            print self.memtr.transaction_status + 'rob success from '+ other_status
 	    self.memtr.out("robb done from "+str(other_status))
 	    self.memtr.add_def_que(other_status)
+            return
+          else:
+            print self.memtr.transaction_status + 'rob failed from '+ other_status
+
+
   def set(self, key, value):
     resolver = self.resolver(self)
     if not self.writeset.has_key(key): # add keyname in status for cleanup
@@ -351,9 +384,13 @@ class MemTr(object):
       if got_value == None: # not exist
 	if self.mc.add(key, [INFLATE, None, tupled_new, self.transaction_status]):
 	  self.writeset[key] = value
+          #print "setting not existed key " + key + " success by " + self.transaction_status
 	  return
+        #print "setting not existed key " + key + " failed by " + self.transaction_status
 	if self.mc.cas_ids.get(key) != None:
 	  self.mc.set(key, [INFLATE, None, tupled_new, self.transaction_status])
+          return
+        print 'not exist and failed to add sleep'
 	time.sleep(0.5)
 	continue
       try:
@@ -385,10 +422,17 @@ class MemTr(object):
 	  self.writeset[key] = value
 	  return
 	else:
+          #print "getting " + key + " failed by " + self.transaction_status
 	  continue
       assert(inflate == INFLATE)
 
       if owner == self.transaction_status:
+        if not self.writeset.has_key(key):
+          print "status:"+self.transaction_status
+          print "writeset:"+str(self.writeset)
+          print "expected"+str(self.mc.get(owner)[1])
+          print "key:" + key
+          exit()
 	assert(self.writeset.has_key(key))
 	try:
 	  owner_status, ref_list = self.mc.get(self.transaction_status)
@@ -461,6 +505,8 @@ class MemTr(object):
 	  self.readset.pop(key, None)
 	  self.writeset[key] = value
 	  self.add_def_que(owner)
+        else:
+          print "getting " + key + " failed by " + self.transaction_status
   def get(self, key):
     resolver = self.resolver(self)
     if self.writeset.has_key(key):
@@ -536,6 +582,7 @@ def rr_transaction(kvs, target_transaction):
 	transaction.add_def_que(transaction.transaction_status)
 	continue
       except ConnectionError:
+        print 'connection error : retry'
         transaction.add_def_que(transaction.transaction_status)
         sleep(0.001 * randint(0, 1 << wait_count))
         if wait_count < 10:

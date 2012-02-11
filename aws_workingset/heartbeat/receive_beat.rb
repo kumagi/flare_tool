@@ -1,46 +1,58 @@
 #!/usr/bin/ruby
 require 'socket'
 require 'yaml'
+require 'optparse'
 
-port = 12334
-server = TCPServer.open(port)
+conf = {}
+opts = OptionParser.new
+opts.on("-f ConfigFile"){|v| conf[:file] = v }
+opts.on("-a Host"){|v| conf[:host] = v }
+opts.on("-p Port"){|v| conf[:port] = v.to_i }
+opts.parse!(ARGV)
+
+conf_file = {}
+if conf[:file]
+  conf_file = YAML.load_file conf[:file]
+end
+host = conf[:host] || conf_file["host"] || '0.0.0.0'
+port = conf[:port] || conf_file["port"] || 12334
+except_list = ["176.34.63.61"]
+
+loopback_list = `hostname -i`.chomp.split ' '
+loopback_list << "127.0.0.1"
+loopback_list.uniq!
 
 from = []
-
 Thread.start{
-  loop do
-    begin
+  begin
+    loop do
       sleep 10
-      from.uniq!
-      from.reject!{|ip| ip == "176.34.30.147"}
-      from.reject!{|ip| ip == "127.0.0.1"}
-      string = from.join("\n")
+      nodelist = (from.uniq - loopback_list  - except_list).sort
       File.open("nodelist.txt","w"){ |f|
-        f.write(string + "\n")
+        f.write(nodelist.join("\n") + "\n")
       }
       File.open("nodelist.yaml","w"){ |f|
-        YAML.dump(from, f)
+        YAML.dump(nodelist, f)
       }
-      
       from = []
       puts "file wrote"
-    rescue
     end
+  rescue => e
+    p e
+    retry
   end
 }
-
-loop do
-  Thread.start(server.accept) do |io|
-    begin
-      peer = io.peeraddr
-      from << peer[3]
-      from.uniq!
-      io.recv 1
-      puts "Connected from #{peer[3]} (#{peer[1]})"
-      io.close
-    rescue Interrupt
-      puts "interrupted."
-    rescue
-    end
+begin
+  server = UDPSocket.open()
+  server.bind(host, port)
+  loop do
+    peer = server.recvfrom(100)
+    from = from.push(peer[1][3]).uniq
+    puts "Connected from #{peer[1][3]}:#{peer[1][1]}"
   end
+rescue Interrupt
+  puts "# interrupt signal received #"
+  exit
+rescue => e
+  p e
 end

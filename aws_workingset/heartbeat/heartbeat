@@ -1,0 +1,41 @@
+#!/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/local/bin/heartbeat.rb
+NAME=heartbeat
+DESC="IP address notifier"
+DARGS="-f /etc/init/heartbeat.conf"
+
+case "$1" in
+    start)
+	      echo -n "Starting $NAME $DESC: "
+        $DAEMON $DARGS &
+        echo "done."
+        exit 0
+	      ;;
+    stop)
+	      echo -n "Stopping $NAME $DESC: "
+	      killall $NAME
+	      killall -KILL $NAME
+	      echo "done."
+        exit 0
+	      ;;
+    restartd)
+	      echo -n "Restarting $DESC: "
+        killall $NAME
+        killall -KILL $NAME
+        $DAEMON $DARGS &
+	      sleep 1
+	      echo "done."
+	      ;;
+    *)
+	      N=/etc/init.d/$NAMEj
+       	# echo "Usage: $N {start|stop|restart}" >&2
+	      echo "Usage: $N {start|stop|restart|force-reload}" >&2
+	      exit 1
+	      ;;
+esac
+
+exit 0
+
+
+

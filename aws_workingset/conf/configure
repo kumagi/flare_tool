@@ -1,4 +1,19 @@
-#!/bin/bash
-export MYIP=`./myip.sh`
-# setting worker server
-sudo perl -i -pe"s/^server-name = .*/server-name = $MYIP/" /etc/flare/flared.conf
+#!/usr/bin/ruby
+require 'socket'
+require 'yaml'
+require 'optparse'
+
+conf = {}
+opts = OptionParser.new
+opts.on("-a MasterAddress"){|v| conf[:host] = v }
+opts.on("-p MasterPort"){|v| conf[:port] = v.to_i }
+opts.on("-f filename"){|v| conf[:filename] = v }
+opts.parse!(ARGV)
+
+filename = conf[:filename] || "heartbeat.conf"
+portnum = conf[:port] || 12334
+raise "you should set maseter address" if conf[:host].nil?
+
+File.open(filename, "w"){ |f|
+	YAML.dump({"host" => conf[:host], "port" => portnum}, f)
+}

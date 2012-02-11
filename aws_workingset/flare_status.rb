@@ -1,11 +1,8 @@
 require 'socket'
-require 'ap'
-
-host = '176.34.30.147'
+require 'yaml'
+host = 'localhost'
 port = 12120
-
 master_nodes = ARGV[0].to_i
-
 class FlareManager
   def initialize host, port
     begin
@@ -59,5 +56,11 @@ class FlareManager
 end
 
 s = FlareManager.new(host,port)
+status = s.checkrole
 puts "connectiong #{host}:#{port} ok."
-ap s.checkrole
+File.open("launched_clients.yaml","w"){ |file|
+  YAML.dump(status[:proxy].sort, file)
+}
+File.open("launched_servers.yaml","w"){ |file|
+  YAML.dump(status[:master].sort, file)
+}

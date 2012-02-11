@@ -1,7 +1,20 @@
 import sys
 import kvtx
+import yaml
+import os
 from random import Random
 from threading import Thread
+from time import sleep
+
+serverlist = yaml.load(open('serverlist.yaml').read())
+"""
+os.system('./save_myip.rb')
+myip = yaml.load(open('myip.yaml').read())
+if myip in serverlist:
+  serverlist = ["127.0.0.1"]
+"""
+serverlist = [x+":11211" for x in serverlist]
+print "target is " + str(serverlist)
 
 try:
   sys.argv.remove("time")
@@ -24,10 +37,6 @@ num = int(num)
 accounts = int(accounts)
 parallel = int(parallel)
 
-host = "127.0.0.1"
-port = "12121"
-#port = "11211"
-
 if num < parallel:
   print("you should set parallel less than numbers")
   exit(1)
@@ -35,7 +44,7 @@ if num < parallel:
 done = []
 done.append(0)
 def work():
-  mc = kvtx.WrappedClient(["%s:%s" % (host,port)])
+  mc = kvtx.WrappedClient(serverlist)
   rnd = Random()
   random_account = lambda:rnd.randint(0, accounts-1)
   random_money = lambda:rnd.randint(0, 100)
@@ -67,13 +76,12 @@ def work():
     if num <= done[0]:
       #print("all done. %d " % done[0])
       return
-
 threads = []
 for j in range(parallel):
   new_thread = Thread(target = work)
   new_thread.start()
   threads.append(new_thread)
-for j in range(len(threads)):
-  threads[j].join()
-
+while done[0] < num:
+  sleep(0.1)
 print "@work done@"
+#sys.stderr.write("@work done@")

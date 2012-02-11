@@ -1,2 +1,2 @@
 #!/bin/bash
-ssh manager "./killall.rb"
+ssh base "./killall.rb"

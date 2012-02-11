@@ -1,4 +1,4 @@
 #!/bin/bash
 ./send_aws.sh
-ssh manager "./bootstrap.sh"
+ssh base "./bootstrap.sh"
 
