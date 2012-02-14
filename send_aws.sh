@@ -18,6 +18,9 @@ ssh base "tar xvf $TAR; rm $TAR; mv aws_workingset/* .;rm aws_workingset -r"  &>
 scp $SETTING base:~/
 ssh base "tar xvf $SETTING; rm $SETTING; "  &> /dev/null
 rm $SETTING -rf
-ssh base "./pass.rb" &> /dev/null
-
-ssh base "./killall.rb" &> /dev/null
+echo -n "send data done. passing to cluster..."
+ssh base "./pass.rb" < /dev/null &> /dev/null
+echo -n "done."
+echo "killall"
+ssh base "./killall.rb < /dev/null &> /dev/null"
+echo 'done'

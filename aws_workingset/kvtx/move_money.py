@@ -38,7 +38,7 @@ accounts = int(accounts)
 parallel = int(parallel)
 
 if num < parallel:
-  print("you should set parallel less than numbers")
+  print("you should set parallel less than numbers %d num < %d parallel" % (num, parallel) )
   exit(1)
 
 done = []
@@ -84,4 +84,5 @@ for j in range(parallel):
 while done[0] < num:
   sleep(0.1)
 print "@work done@"
+quit()
 #sys.stderr.write("@work done@")

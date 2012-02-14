@@ -46,7 +46,5 @@ while True:
     mc = memcache.Client(serverlist, socket_timeout=20)
     continue
 end = time()
-
 print "set %s %d~%d accounts to %d (%f qps)" % (name, first, first+number, init, number/ (end-begin))
-
 

@@ -25,7 +25,10 @@ def parse_args(arg, param_name):
     exit(1)
   return arg
 name, first, number, option = parse_args(sys.argv[1:],
-                                ["prefix of accounts", "fist of accounts","number of accounts", "option"])
+                                ["prefix of accounts",
+                                 "fist of accounts",
+                                 "number of accounts",
+                                 "option"])
 
 first = int(first)
 number = int(number)
@@ -33,7 +36,7 @@ option = int(option)
 
 mc = kvtx.WrappedClient(serverlist)
 def account_verify(setter, getter):
-  for i in range(first, first + number):
+  for i in xrange(first, first + number):
     getter(name + str(i))
 result = None
 
@@ -54,7 +57,7 @@ try:
   accum = 0
   for r in result.keys():
     accum += int(result[r])
-  print float(accum) / number
+  print (float(accum) / number),
   print ' is it ok?'
 except TypeError:
   none = []

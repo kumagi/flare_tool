@@ -1,0 +1,10 @@
+1servers 10clients  12650.309450952642 qps in raw data | 309.6598747215733 qps in transaction
+2servers 10clients  12577.474730416603 qps in raw data | 190.61350577716325 qps in transaction
+3servers 10clients  12324.178697512041 qps in raw data | 183.10908536295727 qps in transaction
+4servers 10clients  12034.1950941175 qps in raw data | 270.1900907583869 qps in transaction
+5servers 10clients  11578.075934176537 qps in raw data | 332.81470863510987 qps in transaction
+6servers 10clients  11433.56230788141 qps in raw data | 353.7445679713262 qps in transaction
+7servers 10clients  11085.79287355878 qps in raw data | 462.2996588063741 qps in transaction
+8servers 10clients  10783.455851782994 qps in raw data | 596.426253061947 qps in transaction
+9servers 10clients  10785.031539970563 qps in raw data | 584.9506892915642 qps in transaction
+10servers 10clients  5577.878423019162 qps in raw data | 681.8467736981382 qps in transaction

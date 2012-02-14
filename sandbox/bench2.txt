@@ -1,0 +1,258 @@
+
+----------
+100000accounts 1000works 5chunks for 19servers
+----------
+1servers 19clients  11056.6436275698 qps in raw data | 3.9556134631639 qps in transaction
+2servers 19clients  11181.1035771593 qps in raw data | 106.004699824371 qps in transaction
+3servers 19clients  8683.09490857179 qps in raw data | 158.37227091583 qps in transaction
+4servers 19clients  1409.40399729806 qps in raw data | 188.455130987085 qps in transaction
+5servers 19clients  1366.45951869142 qps in raw data | 181.64579160339 qps in transaction
+6servers 19clients  1066.38520922009 qps in raw data | 36.3783111538812 qps in transaction
+7servers 19clients  7855.00724899344 qps in raw data | 185.817560870576 qps in transaction
+8servers 19clients  7612.87553458564 qps in raw data | 162.33444978207 qps in transaction
+9servers 19clients  7363.99312232498 qps in raw data | 25.1282029991712 qps in transaction
+10servers 19clients  7377.60733865357 qps in raw data | 165.732172111947 qps in transaction
+11servers 19clients  1058.17325455882 qps in raw data | 178.649980931056 qps in transaction
+12servers 19clients  5073.85348923323 qps in raw data | 185.733927614971 qps in transaction
+13servers 19clients  6605.99107900541 qps in raw data | 174.00635123182 qps in transaction
+14servers 19clients  6624.46660622945 qps in raw data | 6.57661162894703 qps in transaction
+15servers 19clients  6311.79045613101 qps in raw data | 180.403830447006 qps in transaction
+16servers 19clients  3983.7474259514 qps in raw data | 7.89640790575725 qps in transaction
+17servers 19clients  6011.87706432829 qps in raw data | 7.40773429257286 qps in transaction
+18servers 19clients  749.964537926824 qps in raw data | 1.01754093883059 qps in transaction
+19servers 19clients  5815.84566699724 qps in raw data | 4.86593555468543 qps in transaction
+
+----------
+10000accounts 10000works 200chunks for 10servers
+----------
+1servers 10clients  1419.92509895103 qps in raw data | 149.308351458123 qps in transaction
+2servers 10clients  1306.55983188233 qps in raw data | 278.363500977752 qps in transaction
+3servers 10clients  2017.96554364194 qps in raw data | 562.435424432772 qps in transaction
+4servers 10clients  1255.54133166731 qps in raw data | 394.05660189624 qps in transaction
+5servers 10clients  1248.89862752285 qps in raw data | 190.9980115961 qps in transaction
+6servers 10clients  1175.75655819372 qps in raw data | 1158.01280726534 qps in transaction
+7servers 10clients  1151.51018257424 qps in raw data | 1239.77593228009 qps in transaction
+8servers 10clients  1106.57085090983 qps in raw data | 1317.11438677459 qps in transaction
+9servers 10clients  1044.72640913743 qps in raw data | 1305.33931642861 qps in transaction
+10servers 10clients  1035.41781231333 qps in raw data | 587.207318623183 qps in transaction
+
+----------
+300000accounts 1000works 100chunks for 10servers
+----------
+1servers 10clients  34348.9595528407 qps in raw data | 306.008703443905 qps in transaction
+2servers 10clients  31695.1718955953 qps in raw data | 827.121670474977 qps in transaction
+3servers 10clients  26419.9768842816 qps in raw data | 213.584988199774 qps in transaction
+4servers 10clients  27178.9647858461 qps in raw data | 1335.71531210605 qps in transaction
+5servers 10clients  19138.9061617517 qps in raw data | 1396.09986032878 qps in transaction
+6servers 10clients  21217.5942798497 qps in raw data | 1402.94935027161 qps in transaction
+7servers 10clients  22420.7035766254 qps in raw data | 216.076184322645 qps in transaction
+8servers 10clients  22614.7131323639 qps in raw data | 1593.72137106477 qps in transaction
+9servers 10clients  17812.5140273548 qps in raw data | 1706.87258377517 qps in transaction
+10servers 10clients  16682.5707174173 qps in raw data | 1994.99693694982 qps in transaction
+
+----------
+300000accounts 1000works 100chunks for 10servers
+----------
+1servers 10clients  34640.1123263376 qps in raw data | 477.789519817189 qps in transaction
+2servers 10clients  33644.020913572 qps in raw data | 585.957993625322 qps in transaction
+3servers 10clients  23787.2393196088 qps in raw data | 193.508201920531 qps in transaction
+4servers 10clients  20863.6624337309 qps in raw data | 1555.83820714568 qps in transaction
+5servers 10clients  23976.0182275281 qps in raw data | 1427.63411878987 qps in transaction
+6servers 10clients  21933.1417887691 qps in raw data | 1542.91769397091 qps in transaction
+7servers 10clients  21997.6038743353 qps in raw data | 1596.01252231425 qps in transaction
+8servers 10clients  19460.569869057 qps in raw data | 1527.13589043476 qps in transaction
+9servers 10clients  19183.2182137751 qps in raw data | 1709.09706398341 qps in transaction
+10servers 10clients  18370.5212898727 qps in raw data | 1836.57604772837 qps in transaction
+
+----------
+300000accounts 1000works 100chunks for 10servers
+----------
+1servers 10clients  33109.9076763334 qps in raw data | 700.641117762358 qps in transaction
+2servers 10clients  37168.5955102815 qps in raw data | 579.660859752987 qps in transaction
+3servers 10clients  22781.4079107528 qps in raw data | 1359.84188867516 qps in transaction
+4servers 10clients  21396.9635283764 qps in raw data | 1003.00195775139 qps in transaction
+5servers 10clients  19739.0640485913 qps in raw data | 1410.82399560233 qps in transaction
+6servers 10clients  18892.4907072561 qps in raw data | 1528.29393405854 qps in transaction
+7servers 10clients  20776.3268437553 qps in raw data | 1523.84562113956 qps in transaction
+8servers 10clients  20116.1627936683 qps in raw data | 1752.98414042022 qps in transaction
+9servers 10clients  18885.7127316899 qps in raw data | 1771.79458059715 qps in transaction
+10servers 10clients  15753.1750524318 qps in raw data | 1828.20892085969 qps in transaction
+
+----------
+300000accounts 5000works 100chunks for 10servers
+----------
+1servers 10clients  32427.1143856732 qps in raw data | 710.24306370448 qps in transaction
+2servers 10clients  20736.6515754533 qps in raw data | 966.417666659407 qps in transaction
+3servers 10clients  20835.8857293352 qps in raw data | 826.785551239495 qps in transaction
+4servers 10clients  21407.6592037664 qps in raw data | 1361.24555893636 qps in transaction
+5servers 10clients  20812.5193686508 qps in raw data | 1483.37679526433 qps in transaction
+6servers 10clients  20039.4068255422 qps in raw data | 1503.85022637877 qps in transaction
+7servers 10clients  17768.9464797555 qps in raw data | 1112.35840298061 qps in transaction
+8servers 10clients  20024.3081751708 qps in raw data | 1624.46267176988 qps in transaction
+9servers 10clients  18764.2526226327 qps in raw data | 1758.20803437137 qps in transaction
+10servers 10clients  18609.7106959188 qps in raw data | 1809.80395077995 qps in transaction
+
+----------
+300000accounts 5000works 100chunks for 10servers
+----------
+1servers 10clients  33626.6360619443 qps in raw data | 403.582859148386 qps in transaction
+2servers 10clients  28969.4215202438 qps in raw data | 944.366488739626 qps in transaction
+3servers 10clients  25708.919161046 qps in raw data | 1115.58193454191 qps in transaction
+4servers 10clients  19553.7291503474 qps in raw data |  qps in transaction
+5servers 10clients  10883.0523159933 qps in raw data | 1288.7784919548 qps in transaction
+6servers 10clients  22131.9386670863 qps in raw data | 1518.71706749179 qps in transaction
+7servers 10clients  13484.1284392 qps in raw data | 1179.36912737355 qps in transaction
+8servers 10clients  19537.9992593796 qps in raw data | 1722.11958478495 qps in transaction
+9servers 10clients  14272.5638172714 qps in raw data | 1768.59088943178 qps in transaction
+10servers 10clients  19541.6327646479 qps in raw data | 1817.2549312169 qps in transaction
+
+----------
+300000accounts 5000works 100chunks for 10servers
+----------
+1servers 10clients  31380.7039005692 qps in raw data | 376.758520393939 qps in transaction
+2servers 10clients  30956.0273758596 qps in raw data | 301.711121832787 qps in transaction
+3servers 10clients  22385.5304706617 qps in raw data | 1251.81776809081 qps in transaction
+4servers 10clients  23918.2150123155 qps in raw data | 1050.12079776661 qps in transaction
+5servers 10clients  19605.4635721664 qps in raw data | 1390.88234513482 qps in transaction
+6servers 10clients  18606.3542932674 qps in raw data | 279.496132150243 qps in transaction
+7servers 10clients  21632.3403488215 qps in raw data | 1039.9402602385 qps in transaction
+8servers 10clients  16606.2567947267 qps in raw data | 1619.78254365716 qps in transaction
+9servers 10clients  17723.8070784868 qps in raw data | 1805.67927802461 qps in transaction
+10servers 10clients  17101.1440323335 qps in raw data | 397.058469354789 qps in transaction
+
+----------
+3000accounts 500works 10chunks for 15servers
+----------
+1servers 10clients  413.242550373234 qps in raw data | 41.242210132072 qps in transaction
+2servers 10clients  41.8866004067189 qps in raw data | 40.7967815419042 qps in transaction
+3servers 10clients  41.2133767630739 qps in raw data | 96.5152449712229 qps in transaction
+4servers 10clients  279.458539763923 qps in raw data | 19.0761965157585 qps in transaction
+5servers 10clients  273.565277781831 qps in raw data | 11.9392380415375 qps in transaction
+
+----------
+3000accounts 500works 10chunks for 20servers
+----------
+1servers 10clients  284.563969743262 qps in raw data | 30.7315113849494 qps in transaction
+2servers 10clients  335.05450834269 qps in raw data | 67.2935365475785 qps in transaction
+3servers 10clients  298.158335592711 qps in raw data | 76.4748363374773 qps in transaction
+4servers 10clients  290.975652030365 qps in raw data | 85.8385676976594 qps in transaction
+5servers 10clients  292.357910401071 qps in raw data | 21.9559272254916 qps in transaction
+6servers 10clients  281.511506595158 qps in raw data | 10.3615920326102 qps in transaction
+7servers 10clients  280.269529601227 qps in raw data | 186.679998516789 qps in transaction
+8servers 10clients  149.322189252436 qps in raw data | 185.585368622175 qps in transaction
+9servers 10clients  272.638442165753 qps in raw data | 11.3432321519126 qps in transaction
+10servers 10clients  40.0409993138975 qps in raw data | 274.001161526663 qps in transaction
+
+
+----------
+100000accounts 5000works 5chunks for 19servers
+10python 100pythonthoread 5clients = 5000 parallels
+----------
+1servers 5clients  9504.303969307712 qps in raw data |
+2servers 5clients  9053.87991879951 qps in raw data | 45.5595394841749 qps in transaction
+3servers 5clients  4675.9124560054315 qps in raw data | 60.6408683459362 qps in transaction
+4servers 5clients  9096.383662587303 qps in raw data | 65.6138428506709 qps in transaction
+5servers 5clients  5422.058161793605 qps in raw data | 67.7080893020948 qps in transaction
+6servers 5clients  7362.12805560207 qps in raw data | 80.6995846997622 qps in transaction
+7servers 5clients  3582.7327564646416 qps in raw data | 83.9569799704661 qps in transaction
+8servers 5clients  6612.259800179125 qps in raw data | 88.5912027606791 qps in transaction
+9servers 5clients  7801.435396053152 qps in raw data | 100.038762272063 qps in transaction
+10servers 5clients  7235.059039670945 qps in raw data | 91.56336945142 qps in transaction
+11servers 5clients  7166.20138323385 qps in raw data | 98.7143892208779 qps in transaction
+12servers 5clients  6679.54266832953 qps in raw data | 84.9591423760755 qps in transaction
+13servers 5clients  6517.608964848339 qps in raw data | 85.9451059352765 qps in transaction
+14servers 5clients  5957.863595852951 qps in raw data | 104.837481969061 qps in transaction
+
+
+----------
+100000accounts 1000works 10chunks for 19servers
+2python 5pythonthoread 10clients = 100 parallels
+----------
+1servers 10clients  11146.526194725293 qps in raw data | 157.304206314477 qps in transaction
+2servers 10clients  13023.034358405097 qps in raw data | 182.147624578133 qps in transaction
+3servers 10clients  11797.773852969614 qps in raw data | 231.728587119907 qps in transaction
+4servers 10clients  12719.982417595696 qps in raw data | 295.667510058239 qps in transaction
+5servers 10clients  12282.999582741468 qps in raw data | 330.432357522524 qps in transaction
+6servers 10clients  12586.162985447194 qps in raw data | 312.510406340375 qps in transaction
+7servers 10clients  11678.727759086914 qps in raw data | 282.150892685117 qps in transaction
+8servers 10clients  11998.25034890378 qps in raw data | 270.795054279364 qps in transaction
+9servers 10clients  11335.81713352083 qps in raw data | 385.413741651663 qps in transaction
+
+----------
+100000accounts 1000works 10chunks on total 119servers
+2python 2thread 10clients = 40 parallels => factor 2500.0
+----------
+1servers 10clients  12650.309450952642 qps in raw data | 309.6598747215733 qps in transaction
+2servers 10clients  12577.474730416603 qps in raw data | 190.61350577716325 qps in transaction
+3servers 10clients  12324.178697512041 qps in raw data | 183.10908536295727 qps in transaction
+4servers 10clients  12034.1950941175 qps in raw data | 270.1900907583869 qps in transaction
+5servers 10clients  11578.075934176537 qps in raw data | 332.81470863510987 qps in transaction
+6servers 10clients  11433.56230788141 qps in raw data | 353.7445679713262 qps in transaction
+7servers 10clients  11085.79287355878 qps in raw data | 462.2996588063741 qps in transaction
+8servers 10clients  10783.455851782994 qps in raw data | 596.426253061947 qps in transaction
+9servers 10clients  10785.031539970563 qps in raw data | 584.9506892915642 qps in transaction
+10servers 10clients  5577.878423019162 qps in raw data | 681.8467736981382 qps in transaction
+
+----------
+1000000accounts 10000works 100chunks on total 119servers
+10python 10thread 70clients = 7000 parallels => factor 142.85714285714286
+----------
+1servers 70clients  44915.341459683885 qps in raw data | 459.0041946491695 qps in transaction
+2servers 70clients  35137.45626032039 qps in raw data | 440.2560177726859 qps in transaction
+3servers 70clients  33327.344519503415 qps in raw data | 736.3317737265053 qps in transaction
+4servers 70clients  43188.04598462157 qps in raw data | 1039.5797675157532 qps in transaction
+5servers 70clients  39247.80405621175 qps in raw data | 735.5376056006036 qps in transaction
+6servers 70clients  36886.259333020214 qps in raw data | 771.86291002087 qps in transaction
+7servers 70clients  41786.97851118583 qps in raw data | 1452.0770159921085 qps in transaction
+8servers 70clients  42906.97973091097 qps in raw data | 722.668543214479 qps in transaction
+9servers 70clients  39259.300587757636 qps in raw data | 809.3802837671776 qps in transaction
+10servers 70clients  39748.39037398641 qps in raw data | 808.0920253088876 qps in transaction
+11servers 70clients  41505.41979863604 qps in raw data | 510.4331240695308 qps in transaction
+12servers 70clients  39262.51041339197 qps in raw data | 726.0635495204652 qps in transaction
+13servers 70clients  38536.64747835734 qps in raw data | 609.2035473638945 qps in transaction
+14servers 70clients  36694.26501746645 qps in raw data | 1140.9130989390985 qps in transaction
+15servers 70clients  39084.09784346057 qps in raw data | 518.1764321108425 qps in transaction
+16servers 70clients  37609.15021457114 qps in raw data | 570.4041470766441 qps in transaction
+17servers 70clients  38742.22941685517 qps in raw data | 1240.5421647001542 qps in transaction
+18servers 70clients  36752.45688975259 qps in raw data | 612.3668642880233 qps in transaction
+
+----------
+3000000accounts 10000works 100chunks on total 119servers
+10python 10thread 70clients = 7000 parallels => factor 428.57142857142856
+----------
+1servers 70clients  56684.847378780076 qps in raw data | 425.59122389208824 qps in transaction
+2servers 70clients  36671.55828533739 qps in raw data | 480.2042273931915 qps in transaction
+3servers 70clients  34384.654997150355 qps in raw data | 1106.7850539310868 qps in transaction
+4servers 70clients  30364.800883783806 qps in raw data | 881.5839136144895 qps in transaction
+5servers 70clients  24445.87795331708 qps in raw data | 659.6227280388166 qps in transaction
+6servers 70clients  26357.309133786373 qps in raw data | 891.7091847360347 qps in transaction
+7servers 70clients  23611.647627572314 qps in raw data | 881.2967326438676 qps in transaction
+----------
+3000000accounts 10000works 100chunks on total 119servers
+10python 10thread 90clients = 9000 parallels => factor 333.3333333333333
+----------
+1servers 90clients  40631.06750773812 qps in raw data | 353.6343823769731 qps in transaction
+2servers 90clients  109424.0231854285 qps in raw data | 375.0439650012936 qps in transaction
+3servers 90clients  133340.5818933 qps in raw data | 492.01944987810595 qps in transaction
+4servers 90clients  161833.35147678506 qps in raw data | 431.6234482368659 qps in transaction
+5servers 90clients  193777.09393709272 qps in raw data | 652.2260934816572 qps in transaction
+6servers 90clients  217115.99421875342 qps in raw data | 654.5508628145767 qps in transaction
+7servers 90clients  242940.96924756246 qps in raw data | 1002.6772379889165 qps in transaction
+8servers 90clients  277720.5603993215 qps in raw data | 1403.676074919079 qps in transaction
+9servers 90clients  254561.86759003255 qps in raw data | 399.8379808060971 qps in transaction
+10servers 90clients  279166.35617047845 qps in raw data | 932.5421011631088 qps in transaction
+
+----------
+3000000accounts 10000works 100chunks on total 119servers
+10python 2thread 90clients = 1800 parallels => factor 1666.6666666666667
+----------
+6servers 70clients  224838.6120752438 qps in raw data | 404.39705656388566 qps in transaction
+2servers 90clients  98244.54585282053 qps in raw data | 389.50707143273263 qps in transaction
+3servers 90clients  147798.23193654427 qps in raw data | 317.14546200199504 qps in transaction
+4servers 90clients  180520.02783510517 qps in raw data | 860.017008724501 qps in transaction
+5servers 90clients  210407.92247037168 qps in raw data | 558.0935618357123 qps in transaction
+6servers 90clients  225888.88828833398 qps in raw data | 530.2252841489268 qps in transaction
+7servers 90clients  145504.8678386534 qps in raw data | 397.1161313350466 qps in transaction
+8servers 90clients  284025.1269080859 qps in raw data | 323.0785165212277 qps in transaction
+9servers 90clients  283282.588005823 qps in raw data | 395.61119173515306 qps in transaction
+10servers 90clients  287341.4417359138 qps in raw data | 376.1129096588389 qps in transaction

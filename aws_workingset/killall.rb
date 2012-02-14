@@ -23,13 +23,17 @@ nodes.each{ |node|
     puts "killall in #{node} finish"
   }
 }
+
 ths.each{ |t| t.join}
 
 printf 'killing ssh-agent'
 `killall -q ssh-agent`
 puts 'finish'
 
-printf 'killing ruby...'
+printf 'killing ssh-agent...'
 `killall -q -KILL ssh-agent`
-`killall -q ruby`
-puts 'finish'
+printf 'killing ruby'
+`killall -q -KILL ruby`
+puts ' finish'
+
+exit

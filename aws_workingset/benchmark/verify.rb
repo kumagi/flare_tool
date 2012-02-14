@@ -18,7 +18,7 @@ clients = YAML.load_file("clientlist.yaml")
 result = nil
 
 num = clients.size
-para = 20
+para = 8
 stride = accounts / num / para
 rest = (0...num*para).to_a
 clients.each_with_index{ |c, n|
@@ -41,6 +41,7 @@ clients.each_with_index{ |c, n|
 loop do
   sleep 5
   p rest if rest.size < 50 and !rest.empty?
+  puts "#{rest.size} rest." if rest.size >= 50 and !rest.empty?
   break if rest.empty?
 end
 puts 'all helper end, start verify'
